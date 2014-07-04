@@ -13,7 +13,7 @@ namespace AS.BoundedBufferDemo.ConsoleUI
         static System.Threading.Timer syncTimer;
 
         const int TOTAL_PULSES = 5000;
-        const int MAX_BUFFER_SIZE = 10;
+        const int MAX_BUFFER_SIZE = 100;
 
         static void Main(string[] args)
         {
@@ -27,15 +27,13 @@ namespace AS.BoundedBufferDemo.ConsoleUI
             {
                 for (int i = 0; i < TOTAL_PULSES; i++)
                 {
-                    for (int j = 0; j < 15; j++)
-                    {
-                        var pulse = new Pulse() { PortId = 1, Timestamp = DateTime.Now };
-                        buffer.Add(pulse);
-                        Console.WriteLine("Generated: {0} ({1}/{2})", pulse, i + 1, TOTAL_PULSES);
-                        i++;
-                    }
-                    Thread.Sleep(10000);
+                    var pulse = new Pulse() { PortId = 1, Timestamp = DateTime.Now };
+                    buffer.Add(pulse);
+                    Console.WriteLine("Generated: {0} ({1}/{2})", pulse, i + 1, TOTAL_PULSES);
+
+                    if (i % 10 == 0) Thread.Sleep(1000);
                 }
+
                 buffer.Add(null); // End.
             }).Start();
 
